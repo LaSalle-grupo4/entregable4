@@ -162,9 +162,9 @@
           const boton = document.getElementById('btnEnviar');
           console.log(boton);
           boton.addEventListener('click', (event) => {
-            event.preventDefault();
-            validarFormulario();
-
+            if (validarFormulario() == false) {
+              event.preventDefault();
+            }
           })
         })
     });
@@ -184,6 +184,18 @@
         alert('Por favor, introduce una dirección de correo electrónico que no sea de Gmail.');
         return false;
       }
+
+      // Comprobar que el teléfono tiene nueve dígitos, con el primer dígito entre 6, 7 y 9. Después de los 9 dígitos puede tener otras partes separadas por espacio, por ejemplo "915467843 Ext. 34".
+      const telefonValido = /^\d{9}(\s.+)?$/;
+      if (!telefonValido.test(inputTelefon.value)) {
+        alert('Por favor, introduce un número de 9 dígitos (ej: 915467843 o 915467843 Ext. 123).');
+        return false;
+      } else if (!(inputTelefon.value.startsWith("6") || (inputTelefon.value.startsWith("7")) || (inputTelefon.value.startsWith("9")))) {
+        alert('Por favor, introduce un número de 9 dígitos que comience por 6, 7 o 9.');
+        return false;
+      }
+
+      // Enviado correctamente
       alert('Enviado correctamente');
     }
   </script>
