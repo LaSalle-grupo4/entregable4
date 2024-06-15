@@ -143,7 +143,7 @@
   <script>
     // Función para cargar el contenido de un archivo HTML y insertarlo en un elemento
     function loadContent(url, elementId) {
-      fetch(url)
+      return fetch(url)
         .then(response => response.text())
         .then(data => {
           const element = document.getElementById(elementId);
@@ -157,8 +157,35 @@
       loadContent('services.html', 'services-section');
       loadContent('portfolio.html', 'portfolio-section');
       loadContent('location.html', 'location-section');
-      loadContent('emailus.html', 'emailus-section');
+      loadContent('emailus.html', 'emailus-section')
+        .then(() => {
+          const boton = document.getElementById('btnEnviar');
+          console.log(boton);
+          boton.addEventListener('click', (event) => {
+            event.preventDefault();
+            validarFormulario();
+
+          })
+        })
     });
+
+
+    function validarFormulario() {
+      const inputEmail = document.getElementById('inputEmail');
+      const inputTelefon = document.getElementById('inputTelefon');
+
+      // Comprobar que el e-mail deberá ser una dirección válida, y no podrá ser de gmail. Ojo: la dirección "noesgmail@yahoo.com" es válida
+      const emailValido = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+      if (!emailValido.test(inputEmail.value)) {
+        alert('Por favor, introduce una dirección de correo electrónico valida.');
+        return false;
+      } else if (inputEmail.value.endsWith("@gmail.com")) {
+        alert('Por favor, introduce una dirección de correo electrónico que no sea de Gmail.');
+        return false;
+      }
+      alert('Enviado correctamente');
+    }
   </script>
 </body>
 
